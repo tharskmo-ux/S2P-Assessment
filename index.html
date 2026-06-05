@@ -102,10 +102,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <div class="hero">
     <h1>Procurement Maturity Assessment</h1>
-    <p>Answer 28 questions to understand where your procurement stands today: approvals, vendors, compliance, planning, sourcing, and visibility. Takes about 10 minutes. You instantly receive your maturity score, your procurement profile, and a personalised gap analysis.</p>
+    <p>Answer 27 questions to understand where your procurement stands today: approvals, vendors, compliance, planning, sourcing, and visibility. Takes about 10 minutes. You instantly receive your maturity score, your procurement profile, and a personalised gap analysis.</p>
     <div class="meta-pills">
       <span class="pill">⏱ 10 minutes</span>
-      <span class="pill">📋 28 questions</span>
+      <span class="pill">📋 27 questions</span>
       <span class="pill">✅ Free</span>
       <span class="pill">🔒 Confidential</span>
     </div>
@@ -321,14 +321,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         </div>
       </div>
 
-      <!-- Q28: Connect consent -->
-      <div class="q-block">
-        <div class="q-text">May we connect with you to walk through your assessment report and the key fixes for your weak areas?</div>
-        <div class="options" id="opts-q28">
-          <label class="opt-label"><input type="radio" name="connect_request" value="Yes, please connect with me"><div class="opt-body"><div class="opt-text">Yes, please connect with me</div></div></label>
-          <label class="opt-label"><input type="radio" name="connect_request" value="Not right now"><div class="opt-body"><div class="opt-text">Not right now</div></div></label>
-        </div>
-      </div>
     </div>
 
     <div class="submit-wrap">
@@ -718,11 +710,6 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
     ?'You have solid foundations in place. The walkthrough will focus on closing your two weakest areas and what to sequence first.'
     :'You are running a mature procurement function. The walkthrough will focus on advanced practices: forecasting, multi-project material planning, and rate contracts.';
   document.getElementById('thanks-msg').textContent=msg;
-  const cr=document.querySelector('input[name="connect_request"]:checked');
-  if(cr&&cr.value==='Not right now'){
-    document.getElementById('thanks-msg').textContent=msg.replace(' We will reach out within 24 hours with a personalised roadmap for your business.','');
-    document.getElementById('result-foot').textContent='Your breakdown is below. Whenever you are ready for a walkthrough, use the Schedule a call button below.';
-  }
 
   document.getElementById('submit-btn').disabled=true;
   document.getElementById('submitting-msg').style.display='block';
