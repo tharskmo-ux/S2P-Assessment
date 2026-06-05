@@ -102,10 +102,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <div class="hero">
     <h1>Procurement Maturity Assessment</h1>
-    <p>Answer 27 questions to understand where your procurement stands today: approvals, vendors, compliance, planning, sourcing, and visibility. Takes about 10 minutes. You instantly receive your maturity score, your procurement profile, and a personalised gap analysis.</p>
+    <p>Answer 28 questions to understand where your procurement stands today: approvals, vendors, compliance, planning, sourcing, and visibility. Takes about 10 minutes. You instantly receive your maturity score, your procurement profile, and a personalised gap analysis.</p>
     <div class="meta-pills">
       <span class="pill">⏱ 10 minutes</span>
-      <span class="pill">📋 27 questions</span>
+      <span class="pill">📋 28 questions</span>
       <span class="pill">✅ Free</span>
       <span class="pill">🔒 Confidential</span>
     </div>
@@ -170,6 +170,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <input type="email" name="email" id="f-email" placeholder="you@company.com" data-fs-field required>
           <span class="err" id="err-email">Please enter a valid email</span>
           <span data-fs-error="email" style="font-size:12px;color:#DC2626"></span>
+        </div>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label>Location (city) <span class="req">*</span></label>
+          <input type="text" name="location" id="f-location" placeholder="Your city" data-fs-field required>
+          <span class="err" id="err-location">Please enter your city</span>
+        </div>
+        <div class="field">
+          <label>Phone / WhatsApp</label>
+          <input type="tel" name="phone" id="f-phone" placeholder="+91 98xxx xxxxx" data-fs-field>
         </div>
       </div>
       <div class="field-grid">
@@ -309,6 +320,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
           <textarea name="challenges" data-fs-field placeholder="e.g. MSME 43B(h) compliance, approval delays, vendor management, multi-project planning..."></textarea>
         </div>
       </div>
+
+      <!-- Q28: Connect consent -->
+      <div class="q-block">
+        <div class="q-text">May we connect with you to walk through your assessment report and the key fixes for your weak areas?</div>
+        <div class="options" id="opts-q28">
+          <label class="opt-label"><input type="radio" name="connect_request" value="Yes, please connect with me"><div class="opt-body"><div class="opt-text">Yes, please connect with me</div></div></label>
+          <label class="opt-label"><input type="radio" name="connect_request" value="Not right now"><div class="opt-body"><div class="opt-text">Not right now</div></div></label>
+        </div>
+      </div>
     </div>
 
     <div class="submit-wrap">
@@ -372,11 +392,11 @@ const SECTIONS=[
     ]},
   ]},
   {num:3,title:"Invoice & payment process",qs:[
-    {id:"q7",text:"How are invoices matched to purchase orders and goods receipts?",opts:[
-      {t:"Manually by accounts team from paper or PDF invoices",s:0,tag:"Manual"},
-      {t:"Spreadsheet-based comparison by accounts",s:1,tag:"Semi-manual"},
-      {t:"ERP-assisted but significant manual work remains",s:2,tag:"Partial"},
-      {t:"Automated 3-way match (PO, GRN, Invoice) with exception alerts",s:3,tag:"Automated"},
+    {id:"q7",text:"Before paying a vendor invoice, how do you confirm the goods were actually received as ordered?",opts:[
+      {t:"We rely on the vendor and the site team's word",s:0,tag:"On trust"},
+      {t:"Someone checks informally with stores or the site",s:1,tag:"Informal check"},
+      {t:"A written GRN is compared with the invoice before payment",s:2,tag:"Manual match"},
+      {t:"The system matches invoice, PO and GRN automatically before payment",s:3,tag:"Automated"},
     ]},
     {id:"q8",text:"How is TDS calculated and applied on vendor invoices?",opts:[
       {t:"Manually by accounts team, sometimes after payment",s:0,tag:"Manual"},
@@ -663,11 +683,13 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
   const name=document.getElementById('f-name').value.trim();
   const company=document.getElementById('f-company').value.trim();
   const email=document.getElementById('f-email').value.trim();
+  const location=document.getElementById('f-location').value.trim();
   let valid=true;
 
-  ['err-name','err-company','err-email'].forEach(id=>document.getElementById(id).style.display='none');
+  ['err-name','err-company','err-email','err-location'].forEach(id=>document.getElementById(id).style.display='none');
 
   if(!name){document.getElementById('err-name').style.display='block';valid=false;}
+  if(!location){document.getElementById('err-location').style.display='block';valid=false;}
   if(!company){document.getElementById('err-company').style.display='block';valid=false;}
   if(!email||!email.includes('@')){document.getElementById('err-email').style.display='block';valid=false;}
 
@@ -696,6 +718,11 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
     ?'You have solid foundations in place. The walkthrough will focus on closing your two weakest areas and what to sequence first.'
     :'You are running a mature procurement function. The walkthrough will focus on advanced practices: forecasting, multi-project material planning, and rate contracts.';
   document.getElementById('thanks-msg').textContent=msg;
+  const cr=document.querySelector('input[name="connect_request"]:checked');
+  if(cr&&cr.value==='Not right now'){
+    document.getElementById('thanks-msg').textContent=msg.replace(' We will reach out within 24 hours with a personalised roadmap for your business.','');
+    document.getElementById('result-foot').textContent='Your breakdown is below. Whenever you are ready for a walkthrough, use the Schedule a call button below.';
+  }
 
   document.getElementById('submit-btn').disabled=true;
   document.getElementById('submitting-msg').style.display='block';
