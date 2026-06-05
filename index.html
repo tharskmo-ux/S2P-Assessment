@@ -26,8 +26,8 @@ body{font-family:var(--sans);color:var(--ink);line-height:1.6;background:#FFFFFF
 .kicker{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--terra);display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .kicker::before{content:'';width:26px;height:3px;background:var(--green)}
 .hero{margin-bottom:2.1rem;animation:rise .5s .05s ease both;position:relative}
-.hero-geo{position:absolute;top:-26px;right:-8px;width:190px;height:165px;pointer-events:none}
-@media(max-width:680px){.hero-geo{width:120px;opacity:.5;top:-16px}}
+.hero-geo{position:absolute;top:-118px;right:-6px;width:165px;height:145px;pointer-events:none;z-index:-1;opacity:.9}
+@media(max-width:760px){.hero-geo{display:none}}
 .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5.4vw,38px);line-height:1.18;letter-spacing:-.01em;color:var(--ink);margin-bottom:12px}
 .hero p{font-size:15.5px;color:var(--ink2);line-height:1.75;max-width:600px}
 .meta-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
