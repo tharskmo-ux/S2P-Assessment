@@ -117,12 +117,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
       <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
     <h2>Assessment received</h2>
-    <p id="thanks-msg">Thank you. Harshad will review your responses and be in touch within 24 hours with a personalised analysis and next steps.</p>
+    <p id="thanks-msg">Thank you. Our team will review your responses and be in touch within 24 hours with a personalised analysis and next steps.</p>
     <div class="result-card">
       <div class="score-label">Your score</div>
       <div class="result-score" id="final-score-num">-</div>
       <div class="result-maturity" id="final-maturity-label">-</div>
-      <div class="result-label" id="result-foot">Your breakdown is below. Harshad will follow up within 24 hours with a personalised walkthrough.</div>
+      <div class="result-label" id="result-foot">Your breakdown is below. We will follow up within 24 hours with a personalised walkthrough.</div>
     </div>
     <div class="arch-line" id="arch-line" style="display:none"></div>
     <div class="gate-note" id="gate-note" style="display:none"></div>
@@ -522,23 +522,26 @@ function appliedMaturity(){
   return {mat:mat,gate:gate};
 }
 function drawRadar(ss){
-  const cx=180,cy=140,R=92,N=ss.length;
+  const cx=180,cy=148,R=96,N=ss.length;
   const pt=(k,r)=>{const a=-Math.PI/2+k*2*Math.PI/N;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
   let g='';
-  [0.25,0.5,0.75,1].forEach(f=>{
-    g+='<polygon points="'+ss.map((_,k)=>pt(k,R*f).map(v=>v.toFixed(1)).join(',')).join(' ')+'" fill="none" stroke="#E2E8F0" stroke-width="1"/>';
+  [1/3,2/3,1].forEach(f=>{
+    g+='<polygon points="'+ss.map((_,k)=>pt(k,R*f).map(v=>v.toFixed(1)).join(',')).join(' ')+'" fill="none" stroke="#CBD5E1" stroke-width="1.2"/>';
   });
-  ss.forEach((_,k)=>{const p=pt(k,R);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#E2E8F0" stroke-width="1"/>';});
+  ss.forEach((_,k)=>{const p=pt(k,R);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#CBD5E1" stroke-width="1.2"/>';});
+  [[1/3,'3'],[2/3,'6'],[1,'9']].forEach(([f,lb])=>{
+    g+='<text x="'+(cx+5)+'" y="'+(cy-R*f+4).toFixed(1)+'" font-size="9.5" fill="#94A3B8" font-family="inherit">'+lb+'</text>';
+  });
   const poly=ss.map((d,k)=>pt(k,Math.max(R*d.pct,3)).map(v=>v.toFixed(1)).join(',')).join(' ');
-  g+='<polygon points="'+poly+'" fill="rgba(37,99,235,0.18)" stroke="#2563EB" stroke-width="2"/>';
-  ss.forEach((d,k)=>{const p=pt(k,Math.max(R*d.pct,3));g+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#2563EB"/>';});
+  g+='<polygon points="'+poly+'" fill="rgba(37,99,235,0.20)" stroke="#2563EB" stroke-width="2.2"/>';
+  ss.forEach((d,k)=>{const p=pt(k,Math.max(R*d.pct,3));g+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.4" fill="#2563EB" stroke="#fff" stroke-width="1.2"/>';});
   ss.forEach((d,k)=>{
-    const p=pt(k,R+18);
+    const p=pt(k,R+19);
     let anchor='middle';
     if(p[0]>cx+12)anchor='start';else if(p[0]<cx-12)anchor='end';
-    g+='<text x="'+p[0].toFixed(1)+'" y="'+(p[1]+4).toFixed(1)+'" text-anchor="'+anchor+'" font-size="11" fill="#475569" font-family="inherit">'+d.name+'</text>';
+    g+='<text x="'+p[0].toFixed(1)+'" y="'+(p[1]+4).toFixed(1)+'" text-anchor="'+anchor+'" font-size="11.5" font-weight="600" fill="#334155" font-family="inherit">'+d.name+'</text>';
   });
-  return '<svg viewBox="0 0 360 280" width="100%" style="max-width:420px" role="img" aria-label="Radar chart of your seven procurement area scores">'+g+'</svg>';
+  return '<div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:14px 8px 6px;display:inline-block;max-width:440px;width:100%"><svg viewBox="0 0 360 296" width="100%" role="img" aria-label="Radar chart of your seven procurement area scores, each out of 9">'+g+'</svg><div style="font-size:11px;color:#94A3B8;padding-bottom:8px">Each area scored out of 9</div></div>';
 }
 function buildAnalysis(){
   const ss=sectionScores();
@@ -558,16 +561,16 @@ function buildAnalysis(){
   const recsText=focus.map(d=>{const r=RECS[d.i];return d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
   const company=document.getElementById('f-company').value||'';
   const mailSub=encodeURIComponent('ProDomino demo request | '+company+' | Score '+totalScore+'/63');
-  const mailBody=encodeURIComponent('Hi Harshad,\n\nWe just completed the procurement maturity assessment (score '+totalScore+'/63). We would like a demo of ProDomino.\n\nCompany: '+company);
+  const mailBody=encodeURIComponent('Hi Enalsys team,\n\nWe just completed the procurement maturity assessment (score '+totalScore+'/63). We would like a demo of ProDomino.\n\nCompany: '+company);
   document.getElementById('pitch-wrap').innerHTML=
     '<div class="pitch-card"><h4>Schedule your walkthrough with Enalsys</h4>'+
-    '<p>Your two focus areas are <b>'+focus[0].title+'</b> and <b>'+focus[1].title+'</b>. The improvement plan for both, and how to sequence it, is what Harshad covers in a free 30-minute walkthrough of your results.</p>'+
+    '<p>Your two focus areas are <b>'+focus[0].title+'</b> and <b>'+focus[1].title+'</b>. The improvement plan for both, and how to sequence it, is what we cover in a free 30-minute walkthrough of your results.</p>'+
     '<a class="cta-btn" href="https://cal.id/hello-enalsys/connect-with-founder" target="_blank" rel="noopener">Schedule a call &rarr;</a></div>'+
     '<div class="pitch-card"><h4>Sustain it: ProDomino, an AI-based Source-to-Pay platform</h4>'+
     '<p>ProDomino brings approvals, vendors, invoices, compliance, planning, sourcing, and visibility into one system, built for Indian mid-market and designed to lift this score and hold it there.</p>'+
     '<p>Pilot launches August 2026. Design partners get all modules from day one and direct input into the product roadmap. A demo is a 45-minute session tailored to your sector and use case.</p>'+
     '<a class="cta-btn" href="mailto:harshad.am@enalsys.com?subject='+mailSub+'&body='+mailBody+'">Request a demo &rarr;</a>'+
-    '<a class="cta-wa" href="https://wa.me/919833949822?text='+encodeURIComponent('Hi Harshad, we completed the procurement maturity assessment (score '+totalScore+'/63, '+company+'). We would like to know more / see a demo of ProDomino.')+'" target="_blank" rel="noopener">WhatsApp Harshad</a></div>';
+    '<a class="cta-wa" href="https://wa.me/919833949822?text='+encodeURIComponent('Hi Enalsys team, we completed the procurement maturity assessment (score '+totalScore+'/63, '+company+'). We would like to know more / see a demo of ProDomino.')+'" target="_blank" rel="noopener">WhatsApp us</a></div>';
   return {ss:ss,am:am,arch:arch,focus:focus,recsText:recsText};
 }
 function buildQuestions(){
@@ -603,14 +606,15 @@ function computeReportText(){
   const ss=sectionScores();
   const am=appliedMaturity();
   const arch=getArchetype();
-  const focus=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i).slice(0,2);
-  const recsText=focus.map(d=>{const r=RECS[d.i];return d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
+  const ranked=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i);
+  const focus=ranked.slice(0,2);
+  const recsText=ranked.map((d,k)=>{const r=RECS[d.i];return (k<2?'[FOCUS] ':'')+d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
   let t='=== ANALYSIS SUMMARY ===\n';
   t+='Score: '+totalScore+'/63, '+am.mat.label+(am.gate?' (capped: '+am.gate+')':'')+'\n';
   if(arch)t+='Profile: '+arch.label+(arch.ops?' | '+arch.ops:'')+'\n';
   t+='Sections: '+ss.map(d=>d.name+' '+d.got+'/'+d.max).join(' | ')+'\n';
   t+='Focus areas: '+focus.map(d=>d.title).join(', ')+'\n';
-  t+='=== RECOMMENDATIONS (for the call, not shown to respondent) ===\n'+recsText+'\n';
+  t+='=== RECOMMENDATIONS, ALL 7 AREAS WEAKEST FIRST (for the call, not shown to respondent) ===\n'+recsText+'\n';
   return t+buildDetailedResponses();
 }
 function updateScore(){
@@ -687,7 +691,7 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
   document.getElementById('final-score-num').textContent=totalScore+' / 63';
 
   const msg=totalScore<32
-    ?'Your score suggests significant opportunities to improve procurement controls. Harshad will reach out within 24 hours with a personalised roadmap for your business.'
+    ?'Your score suggests significant opportunities to improve procurement controls. We will reach out within 24 hours with a personalised roadmap for your business.'
     :totalScore<48
     ?'You have solid foundations in place. The walkthrough will focus on closing your two weakest areas and what to sequence first.'
     :'You are running a mature procurement function. The walkthrough will focus on advanced practices: forecasting, multi-project material planning, and rate contracts.';
