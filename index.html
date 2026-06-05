@@ -166,6 +166,7 @@ body::after{content:'';position:fixed;bottom:-90px;left:-90px;width:250px;height
   </div>
 
   <form id="assessment-form" action="https://formspree.io/f/xnjrgewa" method="POST" novalidate>
+    <input type="hidden" name="VIEW_FORMATTED_REPORT" id="h-reportlink">
 
     <!-- CONTACT DETAILS -->
     <div class="card">
@@ -539,9 +540,10 @@ function sectionScores(){
     return {i:i, name:SHORT[i], title:sec.title, got:got, max:max, pct:got/max};
   });
 }
+let REPORT_META=null;
 function getArchetype(){
-  const d=document.querySelector('input[name="q23"]:checked');
-  const o=document.querySelector('input[name="q22"]:checked');
+  const d=document.querySelector('input[name="q23"]:checked')||(REPORT_META&&REPORT_META.q23?{value:REPORT_META.q23}:null);
+  const o=document.querySelector('input[name="q22"]:checked')||(REPORT_META&&REPORT_META.q22?{value:REPORT_META.q22}:null);
   const map={"Promoter / MD / Owner":"Founder-led procurement","Plant or project teams":"Site-led procurement","Finance team":"Finance-controlled procurement","A dedicated procurement team":"Process-led procurement"};
   if(!d)return null;
   const label=map[d.value]||null;
@@ -669,6 +671,16 @@ function updateScore(){
   document.getElementById('h-subject').value=
     `Enalsys Procurement Assessment | ${document.getElementById('f-company').value||'[Company]'} | Score ${totalScore}/63 | ${appliedMaturity().mat.label}`;
   try{document.getElementById('h-responses').value=computeReportText();}catch(err){}
+  try{
+    const meta={a:answers,
+      q22:(document.querySelector('input[name="q22"]:checked')||{}).value||'',
+      q23:(document.querySelector('input[name="q23"]:checked')||{}).value||'',
+      n:document.getElementById('f-name').value||'',
+      c:document.getElementById('f-company').value||'',
+      ct:document.getElementById('f-location').value||''};
+    document.getElementById('h-reportlink').value=
+      location.origin+location.pathname+'#r='+btoa(unescape(encodeURIComponent(JSON.stringify(meta))));
+  }catch(err){}
   updateSubmitState();
 }
 
@@ -763,6 +775,27 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
 
 buildQuestions();
 updateSubmitState();
+(function(){
+  if(!location.hash.startsWith('#r='))return;
+  try{
+    const meta=JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(3)))));
+    REPORT_META=meta;
+    Object.assign(answers,meta.a||{});
+    totalScore=Object.values(answers).reduce((a,b)=>a+b,0);
+    document.getElementById('f-name').value=meta.n||'';
+    document.getElementById('f-company').value=meta.c||'';
+    document.getElementById('f-location').value=meta.ct||'';
+    buildAnalysis();
+    const am=appliedMaturity();
+    document.getElementById('final-score-num').textContent=totalScore+' / 63';
+    document.getElementById('final-maturity-label').textContent=am.mat.label;
+    document.getElementById('final-maturity-label').style.color=am.mat.color;
+    document.querySelector('.thanks h2').textContent='Assessment report';
+    document.getElementById('thanks-msg').textContent=(meta.c||'')+(meta.ct?' · '+meta.ct:'')+(meta.n?' · submitted by '+meta.n:'');
+    document.getElementById('result-foot').textContent='Internal report view, generated from the submission link.';
+    document.getElementById('thanks-block').style.display='block';
+  }catch(err){}
+})();
 document.getElementById('assessment-form').addEventListener('change',updateScore);
 document.getElementById('f-company').addEventListener('input',updateScore);
 const successWatch=setInterval(function(){
