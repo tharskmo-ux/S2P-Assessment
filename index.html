@@ -599,13 +599,28 @@ function buildQuestions(){
   });
 }
 
+function computeReportText(){
+  const ss=sectionScores();
+  const am=appliedMaturity();
+  const arch=getArchetype();
+  const focus=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i).slice(0,2);
+  const recsText=focus.map(d=>{const r=RECS[d.i];return d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
+  let t='=== ANALYSIS SUMMARY ===\n';
+  t+='Score: '+totalScore+'/63, '+am.mat.label+(am.gate?' (capped: '+am.gate+')':'')+'\n';
+  if(arch)t+='Profile: '+arch.label+(arch.ops?' | '+arch.ops:'')+'\n';
+  t+='Sections: '+ss.map(d=>d.name+' '+d.got+'/'+d.max).join(' | ')+'\n';
+  t+='Focus areas: '+focus.map(d=>d.title).join(', ')+'\n';
+  t+='=== RECOMMENDATIONS (for the call, not shown to respondent) ===\n'+recsText+'\n';
+  return t+buildDetailedResponses();
+}
 function updateScore(){
   totalScore=Object.values(answers).reduce((a,b)=>a+b,0);
   const mat=getMaturity(totalScore);
   document.getElementById('h-score').value=totalScore+'/63';
-  document.getElementById('h-level').value=mat.label;
+  document.getElementById('h-level').value=appliedMaturity().mat.label;
   document.getElementById('h-subject').value=
-    `Enalsys Procurement Assessment | ${document.getElementById('f-company').value||'[Company]'} | Score ${totalScore}/63 | ${mat.label}`;
+    `Enalsys Procurement Assessment | ${document.getElementById('f-company').value||'[Company]'} | Score ${totalScore}/63 | ${appliedMaturity().mat.label}`;
+  try{document.getElementById('h-responses').value=computeReportText();}catch(err){}
   updateSubmitState();
 }
 
@@ -654,24 +669,20 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
 
   const unanswered=unansweredIds();
   if(unanswered.length>0){
-    e.preventDefault();
+    e.preventDefault();e.stopImmediatePropagation();
     const el=document.querySelector(`#opts-${unanswered[0]}`);
     if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
-  if(!valid){e.preventDefault();return;}
+  if(!valid){e.preventDefault();e.stopImmediatePropagation();return;}
 
-  const an=buildAnalysis();
-  let summary='=== ANALYSIS SUMMARY ===\n';
-  summary+='Score: '+totalScore+'/63, '+an.am.mat.label+(an.am.gate?' (capped: '+an.am.gate+')':'')+'\n';
-  if(an.arch)summary+='Profile: '+an.arch.label+(an.arch.ops?' · '+an.arch.ops:'')+'\n';
-  summary+='Sections: '+an.ss.map(d=>d.name+' '+d.got+'/'+d.max).join(' | ')+'\n';
-  summary+='Focus areas: '+an.focus.map(d=>d.title).join(', ')+'\n';
-  summary+='=== RECOMMENDATIONS (for the call, not shown to respondent) ===\n'+an.recsText+'\n';
-  document.getElementById('h-responses').value=summary+buildDetailedResponses();
-  document.getElementById('h-subject').value=
-    `Enalsys Procurement Assessment | ${company} | Score ${totalScore}/63 | ${an.am.mat.label}`;
-  document.getElementById('h-level').value=an.am.mat.label;
+  try{
+    buildAnalysis();
+    document.getElementById('h-responses').value=computeReportText();
+    document.getElementById('h-subject').value=
+      `Enalsys Procurement Assessment | ${company} | Score ${totalScore}/63 | ${appliedMaturity().mat.label}`;
+    document.getElementById('h-level').value=appliedMaturity().mat.label;
+  }catch(err){}
 
   document.getElementById('final-score-num').textContent=totalScore+' / 63';
 
@@ -695,6 +706,17 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
 
 buildQuestions();
 updateSubmitState();
+document.getElementById('assessment-form').addEventListener('change',updateScore);
+document.getElementById('f-company').addEventListener('input',updateScore);
+const successWatch=setInterval(function(){
+  const t=document.getElementById('thanks-block');
+  if(t&&getComputedStyle(t).display!=='none'){
+    document.getElementById('assessment-form').style.display='none';
+    const h=document.querySelector('.hero');if(h)h.style.display='none';
+    window.scrollTo(0,0);
+    clearInterval(successWatch);
+  }
+},300);
 </script>
 
 <!-- Formspree AJAX integration -->
