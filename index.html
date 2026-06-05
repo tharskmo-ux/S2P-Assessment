@@ -3,96 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Procurement Maturity Assessment | Enalsys Consulting</title>
 <style>
+:root{
+  --ink:#0E1B2C;--ink2:#51596B;--ink3:#8A93A6;
+  --bg:#F6F8FB;--card:#FFFFFF;--line:#E5EAF2;--line2:#EFF2F7;
+  --brand:#2563EB;--accent:#06B6D4;--good:#15803D;--bad:#DC2626;--amber:#B45309;
+  --grad:linear-gradient(120deg,#2563EB 10%,#06B6D4 95%);
+  --disp:'Bricolage Grotesque',sans-serif;
+  --sans:'Instrument Sans',-apple-system,'Segoe UI',sans-serif;
+  --shadow:0 1px 2px rgba(14,27,44,.05),0 8px 24px -12px rgba(14,27,44,.10);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFF;color:#0F172A;line-height:1.6}
-.page{max-width:720px;margin:0 auto;padding:2rem 1.25rem 4rem}
-.brand{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
-.brand img{display:block}
-.hero{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:1.75rem;margin-bottom:1.5rem}
-.hero h1{font-size:22px;font-weight:700;color:#0F172A;margin-bottom:8px}
-.hero p{font-size:14px;color:#475569;line-height:1.7}
-.meta-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.pill{display:inline-flex;align-items:center;gap:5px;background:#EFF6FF;color:#1D4ED8;font-size:12px;font-weight:500;padding:4px 10px;border-radius:20px}
-.score-card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:none}
-.score-label{font-size:12px;color:#64748B;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px}
-.score-track{height:8px;background:#E2E8F0;border-radius:4px;overflow:hidden;margin-bottom:10px}
-.score-fill{height:100%;background:#2563EB;border-radius:4px;width:0%;transition:width 0.4s ease}
-.score-row{display:flex;align-items:center;gap:10px}
-.score-num{font-size:26px;font-weight:700;color:#0F172A}
-.score-denom{font-size:14px;color:#94A3B8}
-.maturity-tag{font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;margin-left:4px}
-.card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:1.5rem;margin-bottom:1.25rem}
-.section-hdr{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;padding-bottom:10px;border-bottom:1px solid #F1F5F9}
-.sec-num{width:30px;height:30px;background:#2563EB;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:600;flex-shrink:0}
-.sec-title{font-size:15px;font-weight:600;color:#0F172A}
-.q-block{margin-bottom:1.25rem}
-.q-text{font-size:14px;color:#1E293B;margin-bottom:10px;font-weight:500}
-.req{color:#DC2626;margin-left:2px}
-.options{display:flex;flex-direction:column;gap:6px}
-.opt-label{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;border:1px solid #E2E8F0;border-radius:8px;cursor:pointer;transition:all 0.15s}
-.opt-label:hover{border-color:#93C5FD;background:#F8FBFF}
-.opt-label.selected{border-color:#2563EB;background:#EFF6FF}
-.opt-label input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:#2563EB;width:15px;height:15px}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);color:var(--ink);line-height:1.6;background:var(--bg);
+  background-image:radial-gradient(rgba(14,27,44,.05) 1px,transparent 1px);background-size:22px 22px}
+#progress-wrap{position:fixed;top:0;left:0;right:0;height:4px;background:rgba(14,27,44,.07);z-index:50}
+#progress-fill{display:block;height:100%;width:0%;background:var(--grad);transition:width .35s cubic-bezier(.4,0,.2,1)}
+.page{max-width:720px;margin:0 auto;padding:2.6rem 1.25rem 4rem;position:relative}
+.page::before{content:'';position:absolute;top:-140px;left:50%;transform:translateX(-50%);width:560px;height:380px;
+  background:radial-gradient(closest-side,rgba(37,99,235,.14),rgba(6,182,212,.07) 60%,transparent);filter:blur(8px);pointer-events:none;z-index:-1}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:2.1rem;animation:rise .5s ease both}
+.brand img{display:block;background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 9px;box-shadow:var(--shadow)}
+.kicker{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.hero{margin-bottom:2.1rem;animation:rise .5s .05s ease both}
+.hero h1{font-family:var(--disp);font-weight:600;font-size:clamp(28px,5.6vw,40px);line-height:1.12;letter-spacing:-.02em;color:var(--ink);margin-bottom:12px}
+.hero p{font-size:15px;color:var(--ink2);line-height:1.75;max-width:600px}
+.meta-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pill{display:inline-flex;align-items:center;font-size:12.5px;font-weight:500;color:var(--ink2);
+  background:var(--card);border:1px solid var(--line);padding:6px 13px;border-radius:999px;box-shadow:var(--shadow)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.7rem 1.5rem;margin-bottom:1.4rem;box-shadow:var(--shadow)}
+.section-hdr{display:flex;align-items:center;gap:12px;margin-bottom:1.35rem;padding-bottom:13px;border-bottom:1px solid var(--line2)}
+.sec-num{width:30px;height:30px;flex-shrink:0;border-radius:9px;background:var(--grad);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:13px;font-weight:600}
+.sec-title{font-family:var(--disp);font-size:18px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.q-block{margin-bottom:1.45rem}
+.q-text{font-size:14.5px;color:var(--ink);margin-bottom:10px;font-weight:500}
+.req{color:var(--bad);margin-left:2px}
+.options{display:flex;flex-direction:column;gap:8px}
+.opt-label{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;background:var(--card);border:1px solid var(--line);border-radius:11px;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s,transform .15s;touch-action:manipulation}
+.opt-label:hover{border-color:#B9CBF5;box-shadow:var(--shadow);transform:translateY(-1px)}
+.opt-label.selected{border-color:var(--brand);background:linear-gradient(0deg,rgba(37,99,235,.055),rgba(37,99,235,.055)),#fff;box-shadow:0 0 0 1px var(--brand),var(--shadow)}
+.opt-label input[type=radio]{margin-top:3px;flex-shrink:0;accent-color:var(--brand);width:16px;height:16px}
 .opt-body{flex:1}
-.opt-text{font-size:13px;color:#1E293B;line-height:1.5}
-.opt-tag{font-size:11px;color:#64748B;margin-top:2px}
+.opt-text{font-size:13.5px;color:var(--ink);line-height:1.55}
+.opt-tag{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink3);margin-top:3px}
+.opt-label.selected .opt-tag{color:var(--brand)}
 .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:1rem}
 @media(max-width:520px){.field-grid{grid-template-columns:1fr}}
 .field-grid.full{grid-template-columns:1fr}
 .field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:13px;color:#475569;font-weight:500}
-.field input,.field select,.field textarea{padding:9px 12px;border:1px solid #CBD5E1;border-radius:8px;font-size:14px;font-family:inherit;color:#0F172A;background:#fff;outline:none;transition:border 0.15s}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563EB;box-shadow:0 0 0 3px rgba(37,99,235,0.1)}
+.field label{font-size:13px;color:var(--ink2);font-weight:500}
+.field input,.field select,.field textarea{padding:10px 13px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:var(--sans);color:var(--ink);background:#fff;outline:none;transition:border .15s,box-shadow .15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.13)}
 .field textarea{resize:vertical;min-height:88px}
-.err{font-size:12px;color:#DC2626;margin-top:3px;display:none}
-.submit-wrap{margin-top:1.5rem}
-.submit-btn{width:100%;padding:13px 20px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.15s;letter-spacing:0.2px}
-.submit-btn:hover{background:#1D4ED8}
-.submit-btn.incomplete{background:#94A3B8}
-.submit-btn.incomplete:hover{background:#64748B}
-.submit-btn:disabled{opacity:0.55;cursor:not-allowed}
-.submitting-msg{text-align:center;font-size:13px;color:#64748B;margin-top:8px;display:none}
-.form-note{text-align:center;font-size:12px;color:#94A3B8;margin-top:8px}
-.thanks{display:none;text-align:center;padding:3rem 1.5rem}
-.check-wrap{width:64px;height:64px;background:#EFF6FF;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
-.check-wrap svg{width:28px;height:28px;stroke:#2563EB;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
-.thanks h2{font-size:22px;font-weight:700;color:#0F172A;margin-bottom:8px}
-.thanks p{font-size:14px;color:#475569;line-height:1.7;max-width:460px;margin:0 auto}
-.result-card{background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;padding:1.25rem;margin:1.5rem auto 0;max-width:340px}
-.result-score{font-size:32px;font-weight:700;color:#0F172A}
-.result-label{font-size:13px;color:#64748B;margin-top:4px}
-.result-maturity{font-size:14px;font-weight:600;margin-top:6px}
-.analysis{max-width:560px;margin:1.5rem auto 0;text-align:left}
-.arch-line{font-size:13px;color:#475569;text-align:center;margin-top:10px}
-.arch-line b{color:#0F172A}
-.gate-note{font-size:12px;color:#B45309;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;margin:10px auto 0;max-width:340px;text-align:center}
-.sec-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px;color:#1E293B}
-.sec-row .nm{width:130px;flex-shrink:0}
-.sec-row .bar{flex:1;height:8px;background:#EEF2F7;border-radius:6px;overflow:hidden}
-.sec-row .bar i{display:block;height:100%;background:#2563EB;border-radius:6px}
-.sec-row .vl{width:42px;text-align:right;color:#64748B;font-size:12px}
-.rec-card{background:#FFF;border:1px solid #E2E8F0;border-radius:10px;padding:14px 16px;margin-top:12px}
-.rec-card h4{margin:0 0 8px;font-size:14px;color:#0F172A}
-.rec-card p{font-size:13px;color:#475569;margin:4px 0;line-height:1.55;max-width:none;text-align:left}
-.rec-card .ph{font-weight:600;color:#2563EB}
-.analysis h3{font-size:14px;color:#0F172A;margin:1.4rem 0 4px;text-align:left}
-.pitch-card{background:#F8FAFF;border:1px solid #DBEAFE;border-radius:10px;padding:16px 18px;margin-top:12px}
-.pitch-card h4{margin:0 0 6px;font-size:14px;color:#1D4ED8}
-.pitch-card p{font-size:13px;color:#475569;margin:4px 0;line-height:1.6;max-width:none;text-align:left}
-.cta-btn{display:inline-block;margin-top:10px;padding:10px 18px;background:#2563EB;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none}
-.cta-btn:hover{background:#1D4ED8}
-.cta-wa{display:inline-block;margin-top:10px;margin-left:8px;padding:10px 18px;background:#16A34A;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none}
-.cta-wa:hover{background:#15803D}
-.footer-bar{background:#0F2640;color:#93C5FD;text-align:center;padding:1rem;font-size:12px;margin-top:2rem}
-.footer-bar a{color:#93C5FD;text-decoration:none}
-.chk-opt{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1px solid #E2E8F0;border-radius:8px;cursor:pointer;font-size:13px;color:#1E293B;transition:all 0.15s}
-.chk-opt:hover{border-color:#93C5FD;background:#F8FBFF}
-.chk-opt input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:#2563EB;width:15px;height:15px}
+.err{font-size:12px;color:var(--bad);margin-top:3px;display:none}
+.submit-wrap{margin-top:1.7rem}
+.submit-btn{width:100%;padding:15px 20px;background:var(--grad);color:#fff;border:none;border-radius:12px;
+  font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.01em;cursor:pointer;
+  box-shadow:0 8px 20px -8px rgba(37,99,235,.5);transition:transform .15s,box-shadow .15s,filter .15s;touch-action:manipulation}
+.submit-btn:hover{transform:translateY(-1px);filter:brightness(1.05);box-shadow:0 12px 26px -8px rgba(37,99,235,.55)}
+.submit-btn.incomplete{background:var(--card);color:var(--ink2);border:1.5px dashed #C3CBD9;box-shadow:none;font-weight:500}
+.submit-btn.incomplete:hover{border-color:var(--brand);color:var(--brand);transform:none;filter:none}
+.submit-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.submit-btn:focus-visible,.cta-btn:focus-visible,.cta-wa:focus-visible{outline:3px solid rgba(37,99,235,.45);outline-offset:2px}
+.opt-label:focus-within,.chk-opt:focus-within{outline:2px solid rgba(37,99,235,.45);outline-offset:1px}
+.submitting-msg{text-align:center;font-size:13px;color:var(--ink2);margin-top:8px;display:none}
+.form-note{text-align:center;font-size:12px;color:var(--ink3);margin-top:10px}
+.thanks{display:none;text-align:center;padding:2.5rem 1rem}
+.check-wrap{width:62px;height:62px;background:var(--grad);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;box-shadow:0 10px 24px -10px rgba(37,99,235,.55)}
+.check-wrap svg{width:27px;height:27px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.thanks h2{font-family:var(--disp);font-size:28px;font-weight:600;letter-spacing:-.015em;color:var(--ink);margin-bottom:10px}
+.thanks p{font-size:14px;color:var(--ink2);line-height:1.7;max-width:480px;margin:0 auto}
+.result-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:1.5rem;margin:1.8rem auto 0;max-width:340px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.result-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad)}
+.result-score,#final-score-num{font-family:var(--disp);font-size:48px;font-weight:700;letter-spacing:-.02em;line-height:1;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+.result-label{font-size:13px;color:var(--ink2);margin-top:8px}
+.result-maturity{display:inline-block;font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:10px;padding:5px 13px;border:1.5px solid currentColor;border-radius:999px}
+.analysis{max-width:560px;margin:1.6rem auto 0;text-align:left}
+.analysis h3{font-family:var(--disp);font-size:17px;font-weight:600;letter-spacing:-.01em;color:var(--ink);margin:1.7rem 0 8px;text-align:left}
+.arch-line{font-size:13.5px;color:var(--ink2);text-align:center;margin-top:12px}
+.arch-line b{color:var(--ink)}
+.gate-note{font-size:12px;color:var(--amber);background:#FFF8E8;border:1px solid #F0DFAE;border-radius:10px;padding:9px 12px;margin:12px auto 0;max-width:360px;text-align:center}
+.sec-row{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13px;color:var(--ink)}
+.sec-row .nm{width:130px;flex-shrink:0;font-weight:500}
+.sec-row .bar{flex:1;height:9px;background:var(--line2);border-radius:6px;overflow:hidden;position:relative}
+.sec-row .bar b{position:absolute;left:80%;top:0;bottom:0;width:2px;background:var(--good);opacity:.6}
+.sec-row .bar i{display:block;height:100%;border-radius:6px;transition:width .5s ease}
+.sec-row .vl{width:42px;text-align:right;color:var(--ink2);font-size:12px;font-variant-numeric:tabular-nums}
+.pitch-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:14px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.pitch-card::before{content:'';position:absolute;top:0;bottom:0;left:0;width:3px;background:var(--grad)}
+.pitch-card h4{font-family:var(--disp);margin:0 0 7px;font-size:16.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.pitch-card p{font-size:13.5px;color:var(--ink2);margin:5px 0;line-height:1.65;max-width:none;text-align:left}
+.cta-btn{display:inline-block;margin-top:12px;padding:11px 21px;background:var(--grad);color:#fff;border-radius:10px;font-size:13.5px;font-weight:600;text-decoration:none;
+  box-shadow:0 6px 16px -6px rgba(37,99,235,.5);transition:transform .15s,filter .15s;touch-action:manipulation}
+.cta-btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.cta-wa{display:inline-block;margin-top:12px;margin-left:8px;padding:11px 21px;background:#16A34A;color:#fff;border-radius:10px;font-size:13.5px;font-weight:600;text-decoration:none;
+  box-shadow:0 6px 16px -6px rgba(22,163,74,.45);transition:transform .15s,filter .15s;touch-action:manipulation}
+.cta-wa:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.footer-bar{background:var(--ink);color:#AEBBD3;text-align:center;padding:1.1rem;font-size:12px;letter-spacing:.03em;margin-top:2.5rem;border-radius:0}
+.footer-bar a{color:#AEBBD3;text-decoration:none}
+.chk-opt{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;background:var(--card);border:1px solid var(--line);border-radius:10px;cursor:pointer;font-size:13.5px;color:var(--ink);transition:border-color .15s,box-shadow .15s;touch-action:manipulation}
+.chk-opt:hover{border-color:#B9CBF5;box-shadow:var(--shadow)}
+.chk-opt input[type=checkbox]{margin-top:2px;flex-shrink:0;accent-color:var(--brand);width:16px;height:16px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
+<div id="progress-wrap" aria-hidden="true"><i id="progress-fill"></i></div>
 
 <div class="page">
 
@@ -101,13 +124,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
   </div>
 
   <div class="hero">
+    <div class="kicker">Enalsys Consulting · Procurement Benchmark Study</div>
     <h1>Procurement Maturity Assessment</h1>
     <p>Answer 27 questions to understand where your procurement stands today: approvals, vendors, compliance, planning, sourcing, and visibility. Takes about 10 minutes. You instantly receive your maturity score, your procurement profile, and a personalised gap analysis.</p>
     <div class="meta-pills">
-      <span class="pill">⏱ 10 minutes</span>
-      <span class="pill">📋 27 questions</span>
-      <span class="pill">✅ Free</span>
-      <span class="pill">🔒 Confidential</span>
+      <span class="pill">10 minutes</span>
+      <span class="pill">27 questions</span>
+      <span class="pill">Free</span>
+      <span class="pill">Confidential</span>
     </div>
   </div>
 
@@ -544,6 +568,7 @@ function drawRadar(ss){
   [[1/3,'3'],[2/3,'6'],[1,'9']].forEach(([f,lb])=>{
     g+='<text x="'+(cx+5)+'" y="'+(cy-R*f+4).toFixed(1)+'" font-size="9.5" fill="#94A3B8" font-family="inherit">'+lb+'</text>';
   });
+  g+='<polygon points="'+ss.map((_,k)=>pt(k,R*0.8).map(v=>v.toFixed(1)).join(',')).join(' ')+'" fill="none" stroke="#15803D" stroke-width="1.8" stroke-dasharray="6,4"/>';
   const poly=ss.map((d,k)=>pt(k,Math.max(R*d.pct,3)).map(v=>v.toFixed(1)).join(',')).join(' ');
   g+='<polygon points="'+poly+'" fill="rgba(37,99,235,0.20)" stroke="#2563EB" stroke-width="2.2"/>';
   ss.forEach((d,k)=>{const p=pt(k,Math.max(R*d.pct,3));g+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3.4" fill="#2563EB" stroke="#fff" stroke-width="1.2"/>';});
@@ -553,7 +578,7 @@ function drawRadar(ss){
     if(p[0]>cx+12)anchor='start';else if(p[0]<cx-12)anchor='end';
     g+='<text x="'+p[0].toFixed(1)+'" y="'+(p[1]+4).toFixed(1)+'" text-anchor="'+anchor+'" font-size="11.5" font-weight="600" fill="#334155" font-family="inherit">'+d.name+'</text>';
   });
-  return '<div style="background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:14px 8px 6px;display:inline-block;max-width:440px;width:100%"><svg viewBox="0 0 360 296" width="100%" role="img" aria-label="Radar chart of your seven procurement area scores, each out of 9">'+g+'</svg><div style="font-size:11px;color:#94A3B8;padding-bottom:8px">Each area scored out of 9</div></div>';
+  return '<div style="background:#fff;border:1px solid #E5EAF2;border-radius:14px;padding:14px 8px 6px;display:inline-block;max-width:440px;width:100%"><svg viewBox="0 0 360 296" width="100%" role="img" aria-label="Radar chart of your seven procurement area scores, each out of 9">'+g+'</svg><div style="font-size:11px;color:#94A3B8;padding-bottom:8px">Each area scored out of 9 &nbsp;·&nbsp; <span style="color:#2563EB;font-weight:600">Your score</span> &nbsp;·&nbsp; <span style="color:#15803D;font-weight:600">- - 80% target</span></div></div>';
 }
 function buildAnalysis(){
   const ss=sectionScores();
@@ -568,15 +593,21 @@ function buildAnalysis(){
     al.style.display='block';
   }
   document.getElementById('radar-wrap').innerHTML=drawRadar(ss);
-  document.getElementById('sec-bars').innerHTML=ss.map(d=>'<div class="sec-row"><span class="nm">'+d.name+'</span><span class="bar"><i style="width:'+Math.round(d.pct*100)+'%"></i></span><span class="vl">'+d.got+'/'+d.max+'</span></div>').join('');
-  const focus=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i).slice(0,2);
+  document.getElementById('sec-bars').innerHTML=ss.map(d=>{
+    const col=d.pct<0.5?'#DC2626':(d.pct>=0.8?'#15803D':'#2563EB');
+    return '<div class="sec-row"><span class="nm">'+d.name+'</span><span class="bar"><i style="width:'+Math.round(d.pct*100)+'%;background:'+col+'"></i><b></b></span><span class="vl">'+d.got+'/'+d.max+'</span></div>';
+  }).join('')+'<div style="font-size:11px;color:#94A3B8;margin-top:6px">Red: below 50%, needs focus &nbsp;·&nbsp; Green: at or above the 80% target (marked on each bar)</div>';
+  const fo=focusOf(ss);const focus=fo.focus;
   const recsText=focus.map(d=>{const r=RECS[d.i];return d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
   const company=document.getElementById('f-company').value||'';
   const mailSub=encodeURIComponent('ProDomino demo request | '+company+' | Score '+totalScore+'/63');
   const mailBody=encodeURIComponent('Hi Enalsys team,\n\nWe just completed the procurement maturity assessment (score '+totalScore+'/63). We would like a demo of ProDomino.\n\nCompany: '+company);
   document.getElementById('pitch-wrap').innerHTML=
     '<div class="pitch-card"><h4>Schedule your walkthrough with Enalsys</h4>'+
-    '<p>Your two focus areas are <b>'+focus[0].title+'</b> and <b>'+focus[1].title+'</b>. The improvement plan for both, and how to sequence it, is what we cover in a free 30-minute walkthrough of your results.</p>'+
+    '<p>'+(fo.strict
+      ?'Your focus areas, each scoring below 50%, are '+focus.map(d=>'<b>'+d.title+'</b>').join(', ')+'.'
+      :'All seven areas score above 50%. The next step is taking <b>'+focus[0].title+'</b> and <b>'+focus[1].title+'</b> to the 80% target.')+
+     ' The improvement plan, and how to sequence it, is what we cover in a free 30-minute walkthrough of your results.</p>'+
     '<a class="cta-btn" href="https://cal.id/hello-enalsys/connect-with-founder" target="_blank" rel="noopener">Schedule a call &rarr;</a></div>'+
     '<div class="pitch-card"><h4>Sustain it: ProDomino, an AI-based Source-to-Pay platform</h4>'+
     '<p>ProDomino brings approvals, vendors, invoices, compliance, planning, sourcing, and visibility into one system, built for Indian mid-market and designed to lift this score and hold it there.</p>'+
@@ -618,14 +649,15 @@ function computeReportText(){
   const ss=sectionScores();
   const am=appliedMaturity();
   const arch=getArchetype();
-  const ranked=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i);
-  const focus=ranked.slice(0,2);
-  const recsText=ranked.map((d,k)=>{const r=RECS[d.i];return (k<2?'[FOCUS] ':'')+d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
+  const fo=focusOf(ss);
+  const ranked=fo.ranked;
+  const focus=fo.focus;
+  const recsText=ranked.map((d,k)=>{const r=RECS[d.i];return (d.pct<0.5?'[FOCUS] ':'')+d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
   let t='=== ANALYSIS SUMMARY ===\n';
   t+='Score: '+totalScore+'/63, '+am.mat.label+(am.gate?' (capped: '+am.gate+')':'')+'\n';
   if(arch)t+='Profile: '+arch.label+(arch.ops?' | '+arch.ops:'')+'\n';
   t+='Sections: '+ss.map(d=>d.name+' '+d.got+'/'+d.max).join(' | ')+'\n';
-  t+='Focus areas: '+focus.map(d=>d.title).join(', ')+'\n';
+  t+=(fo.strict?'Focus areas (below 50%): ':'No area below 50%. Next to lift toward 80% target: ')+focus.map(d=>d.title+' '+Math.round(d.pct*100)+'%').join(', ')+'\n';
   t+='=== RECOMMENDATIONS, ALL 7 AREAS WEAKEST FIRST (for the call, not shown to respondent) ===\n'+recsText+'\n';
   return t+buildDetailedResponses();
 }
@@ -640,6 +672,11 @@ function updateScore(){
   updateSubmitState();
 }
 
+function focusOf(ss){
+  const ranked=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i);
+  const below=ranked.filter(d=>d.pct<0.5);
+  return {ranked:ranked, focus:below.length?below:ranked.slice(0,2), strict:below.length>0};
+}
 const TOTALQ=SECTIONS.reduce((a,sec)=>a+sec.qs.length,0);
 function unansweredIds(){
   const u=[];
@@ -649,9 +686,11 @@ function unansweredIds(){
 function updateSubmitState(){
   const btn=document.getElementById('submit-btn');
   const left=unansweredIds().length;
+  const pf=document.getElementById('progress-fill');
+  if(pf)pf.style.width=Math.round((TOTALQ-left)/TOTALQ*100)+'%';
   if(left>0){
     btn.classList.add('incomplete');
-    btn.innerHTML='Answer '+left+' more question'+(left===1?'':'s');
+    btn.innerHTML=left+' required question'+(left===1?'':'s')+' remaining';
   }else{
     btn.classList.remove('incomplete');
     btn.innerHTML='Submit assessment &rarr;';
@@ -731,6 +770,7 @@ const successWatch=setInterval(function(){
   if(t&&getComputedStyle(t).display!=='none'){
     document.getElementById('assessment-form').style.display='none';
     const h=document.querySelector('.hero');if(h)h.style.display='none';
+    const pw=document.getElementById('progress-wrap');if(pw)pw.style.display='none';
     window.scrollTo(0,0);
     clearInterval(successWatch);
   }
