@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Procurement Maturity Assessment — Enalsys Consulting</title>
+<title>Procurement Maturity Assessment | Enalsys Consulting</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFF;color:#0F172A;line-height:1.6}
@@ -50,6 +50,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .submit-wrap{margin-top:1.5rem}
 .submit-btn{width:100%;padding:13px 20px;background:#2563EB;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background 0.15s;letter-spacing:0.2px}
 .submit-btn:hover{background:#1D4ED8}
+.submit-btn.incomplete{background:#94A3B8}
+.submit-btn.incomplete:hover{background:#64748B}
 .submit-btn:disabled{opacity:0.55;cursor:not-allowed}
 .submitting-msg{text-align:center;font-size:13px;color:#64748B;margin-top:8px;display:none}
 .form-note{text-align:center;font-size:12px;color:#94A3B8;margin-top:8px}
@@ -62,6 +64,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .result-score{font-size:32px;font-weight:700;color:#0F172A}
 .result-label{font-size:13px;color:#64748B;margin-top:4px}
 .result-maturity{font-size:14px;font-weight:600;margin-top:6px}
+.analysis{max-width:560px;margin:1.5rem auto 0;text-align:left}
+.arch-line{font-size:13px;color:#475569;text-align:center;margin-top:10px}
+.arch-line b{color:#0F172A}
+.gate-note{font-size:12px;color:#B45309;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;padding:8px 12px;margin:10px auto 0;max-width:340px;text-align:center}
+.sec-row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px;color:#1E293B}
+.sec-row .nm{width:130px;flex-shrink:0}
+.sec-row .bar{flex:1;height:8px;background:#EEF2F7;border-radius:6px;overflow:hidden}
+.sec-row .bar i{display:block;height:100%;background:#2563EB;border-radius:6px}
+.sec-row .vl{width:42px;text-align:right;color:#64748B;font-size:12px}
+.rec-card{background:#FFF;border:1px solid #E2E8F0;border-radius:10px;padding:14px 16px;margin-top:12px}
+.rec-card h4{margin:0 0 8px;font-size:14px;color:#0F172A}
+.rec-card p{font-size:13px;color:#475569;margin:4px 0;line-height:1.55;max-width:none;text-align:left}
+.rec-card .ph{font-weight:600;color:#2563EB}
+.analysis h3{font-size:14px;color:#0F172A;margin:1.4rem 0 4px;text-align:left}
+.pitch-card{background:#F8FAFF;border:1px solid #DBEAFE;border-radius:10px;padding:16px 18px;margin-top:12px}
+.pitch-card h4{margin:0 0 6px;font-size:14px;color:#1D4ED8}
+.pitch-card p{font-size:13px;color:#475569;margin:4px 0;line-height:1.6;max-width:none;text-align:left}
+.cta-btn{display:inline-block;margin-top:10px;padding:10px 18px;background:#2563EB;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none}
+.cta-btn:hover{background:#1D4ED8}
+.cta-wa{display:inline-block;margin-top:10px;margin-left:8px;padding:10px 18px;background:#16A34A;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none}
+.cta-wa:hover{background:#15803D}
 .footer-bar{background:#0F2640;color:#93C5FD;text-align:center;padding:1rem;font-size:12px;margin-top:2rem}
 .footer-bar a{color:#93C5FD;text-decoration:none}
 .chk-opt{display:flex;align-items:flex-start;gap:8px;padding:9px 12px;border:1px solid #E2E8F0;border-radius:8px;cursor:pointer;font-size:13px;color:#1E293B;transition:all 0.15s}
@@ -79,22 +102,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 
   <div class="hero">
     <h1>Procurement Maturity Assessment</h1>
-    <p>Answer 20 questions to understand where your procurement stands today — approvals, compliance, vendor management, and visibility. Takes about 5 minutes. You receive a personalised maturity score and a summary of your key gaps.</p>
+    <p>Answer 27 questions to understand where your procurement stands today: approvals, vendors, compliance, planning, sourcing, and visibility. Takes about 10 minutes. You instantly receive your maturity score, your procurement profile, and a personalised gap analysis.</p>
     <div class="meta-pills">
       <span class="pill">⏱ 10 minutes</span>
       <span class="pill">📋 27 questions</span>
       <span class="pill">✅ Free</span>
       <span class="pill">🔒 Confidential</span>
-    </div>
-  </div>
-
-  <div class="score-card" id="score-card">
-    <div class="score-label">Live maturity score</div>
-    <div class="score-track"><div class="score-fill" id="score-fill"></div></div>
-    <div class="score-row">
-      <span class="score-num" id="score-num">0</span>
-      <span class="score-denom">/ 60</span>
-      <span class="maturity-tag" id="maturity-tag" style="background:#F1F5F9;color:#64748B">Not started</span>
     </div>
   </div>
 
@@ -107,9 +120,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <p id="thanks-msg">Thank you. Harshad will review your responses and be in touch within 24 hours with a personalised analysis and next steps.</p>
     <div class="result-card">
       <div class="score-label">Your score</div>
-      <div class="result-score" id="final-score-num">—</div>
-      <div class="result-maturity" id="final-maturity-label">—</div>
-      <div class="result-label">A detailed breakdown will be shared via email.</div>
+      <div class="result-score" id="final-score-num">-</div>
+      <div class="result-maturity" id="final-maturity-label">-</div>
+      <div class="result-label" id="result-foot">Your breakdown is below. Harshad will follow up within 24 hours with a personalised walkthrough.</div>
+    </div>
+    <div class="arch-line" id="arch-line" style="display:none"></div>
+    <div class="gate-note" id="gate-note" style="display:none"></div>
+    <div class="analysis">
+      <h3>Your procurement profile: 7 areas</h3>
+      <div id="radar-wrap" style="text-align:center;margin-top:6px"></div>
+      <div id="sec-bars"></div>
+      <h3>What next</h3>
+      <div id="pitch-wrap"></div>
     </div>
   </div>
 
@@ -118,7 +140,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     Submission failed. Please try again or email <strong>harshad.am@enalsys.com</strong> directly.
   </div>
 
-  <form id="assessment-form" novalidate>
+  <form id="assessment-form" action="https://formspree.io/f/xnjrgewa" method="POST" novalidate>
 
     <!-- CONTACT DETAILS -->
     <div class="card">
@@ -190,14 +212,37 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
     <div id="questions-wrap"></div>
 
     <!-- ADDITIONAL CONTEXT -->
-    <!-- SECTION 8 — BUSINESS INTELLIGENCE -->
+    <!-- SECTION 8: BUSINESS INTELLIGENCE -->
     <div class="card" id="sec8">
       <div class="section-hdr">
         <span class="sec-num">8</span>
-        <span class="sec-title">Your tools, technology &amp; next steps</span>
+        <span class="sec-title">About your company, tools &amp; next steps</span>
       </div>
 
-      <!-- Q21: Current tools -->
+      <!-- Q22: Operating environment (profile, not scored) -->
+      <div class="q-block">
+        <div class="q-text">What best describes your company's operations?</div>
+        <div class="options" id="opts-q22">
+          <label class="opt-label"><input type="radio" name="q22" value="Single location or plant"><div class="opt-body"><div class="opt-text">Single location or plant</div></div></label>
+          <label class="opt-label"><input type="radio" name="q22" value="Multi-site manufacturing"><div class="opt-body"><div class="opt-text">Multi-site manufacturing</div></div></label>
+          <label class="opt-label"><input type="radio" name="q22" value="Project-based (EPC, construction, infrastructure)"><div class="opt-body"><div class="opt-text">Project-based (EPC, construction, infrastructure)</div></div></label>
+          <label class="opt-label"><input type="radio" name="q22" value="Services or trading"><div class="opt-body"><div class="opt-text">Services or trading</div></div></label>
+          <label class="opt-label"><input type="radio" name="q22" value="Multiple businesses or divisions"><div class="opt-body"><div class="opt-text">Multiple businesses or divisions</div></div></label>
+        </div>
+      </div>
+
+      <!-- Q23: Who shapes purchasing (profile, not scored) -->
+      <div class="q-block">
+        <div class="q-text">Who most strongly shapes purchasing decisions today?</div>
+        <div class="options" id="opts-q23">
+          <label class="opt-label"><input type="radio" name="q23" value="Promoter / MD / Owner"><div class="opt-body"><div class="opt-text">Promoter / MD / Owner</div></div></label>
+          <label class="opt-label"><input type="radio" name="q23" value="Plant or project teams"><div class="opt-body"><div class="opt-text">Plant or project teams</div></div></label>
+          <label class="opt-label"><input type="radio" name="q23" value="Finance team"><div class="opt-body"><div class="opt-text">Finance team</div></div></label>
+          <label class="opt-label"><input type="radio" name="q23" value="A dedicated procurement team"><div class="opt-body"><div class="opt-text">A dedicated procurement team</div></div></label>
+        </div>
+      </div>
+
+      <!-- Q24: Current tools -->
       <div class="q-block">
         <div class="q-text">Which tools do you currently use for procurement or finance? <span style="font-size:12px;color:#64748B;font-weight:400">(select all that apply)</span></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px" id="tools-grid">
@@ -215,19 +260,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         </div>
       </div>
 
-      <!-- Q22: AI usage -->
+      <!-- Q25: AI usage -->
       <div class="q-block">
         <div class="q-text">Are you currently using any AI tools in your business?</div>
-        <div class="options" id="opts-q22">
-          <label class="opt-label"><input type="radio" name="q22" value="Yes — officially adopted for finance or accounts"><div class="opt-body"><div class="opt-text">Yes — officially adopted for finance or accounts</div></div></label>
-          <label class="opt-label"><input type="radio" name="q22" value="Yes — officially adopted for other functions"><div class="opt-body"><div class="opt-text">Yes — officially adopted for other functions</div></div></label>
-          <label class="opt-label"><input type="radio" name="q22" value="Informally — some team members use it individually"><div class="opt-body"><div class="opt-text">Informally — some team members use it individually</div></div></label>
-          <label class="opt-label"><input type="radio" name="q22" value="No but we are interested"><div class="opt-body"><div class="opt-text">No but we are interested</div></div></label>
-          <label class="opt-label"><input type="radio" name="q22" value="No and not a priority right now"><div class="opt-body"><div class="opt-text">No and not a priority right now</div></div></label>
+        <div class="options" id="opts-q25">
+          <label class="opt-label"><input type="radio" name="q25" value="Yes, officially adopted for finance or accounts"><div class="opt-body"><div class="opt-text">Yes, officially adopted for finance or accounts</div></div></label>
+          <label class="opt-label"><input type="radio" name="q25" value="Yes, officially adopted for other functions"><div class="opt-body"><div class="opt-text">Yes, officially adopted for other functions</div></div></label>
+          <label class="opt-label"><input type="radio" name="q25" value="Informally, some team members use it individually"><div class="opt-body"><div class="opt-text">Informally, some team members use it individually</div></div></label>
+          <label class="opt-label"><input type="radio" name="q25" value="No but we are interested"><div class="opt-body"><div class="opt-text">No but we are interested</div></div></label>
+          <label class="opt-label"><input type="radio" name="q25" value="No and not a priority right now"><div class="opt-body"><div class="opt-text">No and not a priority right now</div></div></label>
         </div>
       </div>
 
-      <!-- Q22b: Which AI tool -->
+      <!-- Q25b: Which AI tool -->
       <div class="q-block" id="ai-tool-block" style="display:none">
         <div class="field">
           <label>Which AI tool(s) are you using officially?</label>
@@ -235,56 +280,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
         </div>
       </div>
 
-      <!-- Q23: Decision maker -->
+      <!-- Q26: Decision maker -->
       <div class="q-block">
         <div class="q-text">Who makes the final decision on adopting new business software?</div>
-        <div class="options" id="opts-q23">
-          <label class="opt-label"><input type="radio" name="q23" value="Promoter / MD / Owner"><div class="opt-body"><div class="opt-text">Promoter / MD / Owner</div></div></label>
-          <label class="opt-label"><input type="radio" name="q23" value="CFO / Finance Head"><div class="opt-body"><div class="opt-text">CFO / Finance Head</div></div></label>
-          <label class="opt-label"><input type="radio" name="q23" value="IT Head"><div class="opt-body"><div class="opt-text">IT Head</div></div></label>
-          <label class="opt-label"><input type="radio" name="q23" value="Joint decision — multiple stakeholders"><div class="opt-body"><div class="opt-text">Joint decision — multiple stakeholders</div></div></label>
+        <div class="options" id="opts-q26">
+          <label class="opt-label"><input type="radio" name="q26" value="Promoter / MD / Owner"><div class="opt-body"><div class="opt-text">Promoter / MD / Owner</div></div></label>
+          <label class="opt-label"><input type="radio" name="q26" value="CFO / Finance Head"><div class="opt-body"><div class="opt-text">CFO / Finance Head</div></div></label>
+          <label class="opt-label"><input type="radio" name="q26" value="IT Head"><div class="opt-body"><div class="opt-text">IT Head</div></div></label>
+          <label class="opt-label"><input type="radio" name="q26" value="Joint decision (multiple stakeholders)"><div class="opt-body"><div class="opt-text">Joint decision (multiple stakeholders)</div></div></label>
         </div>
       </div>
 
-      <!-- Q24: Switch trigger -->
-      <div class="q-block">
-        <div class="field">
-          <label>What would make you move away from your current procurement process?</label>
-          <textarea name="switch_trigger" placeholder="e.g. a compliance notice, a large project, pressure from auditor or board..."></textarea>
-        </div>
-      </div>
-
-      <!-- Q25: Biggest challenge -->
+      <!-- Q27: Biggest challenge -->
       <div class="q-block">
         <div class="field">
           <label>What is your single biggest procurement challenge right now?</label>
-          <textarea name="biggest_challenge" placeholder="Be as specific as you like — this helps us understand your priorities"></textarea>
-        </div>
-      </div>
-
-      <!-- Separator -->
-      <div style="border-top:1px solid #F1F5F9;margin:1.25rem 0"></div>
-
-      <!-- Q26: Demo request -->
-      <div class="q-block">
-        <label class="chk-opt chk-featured" style="border:1.5px solid #2563EB;background:#EFF6FF;padding:14px 16px;border-radius:8px;display:flex;align-items:flex-start;gap:12px;cursor:pointer">
-          <input type="checkbox" name="demo_request" value="Yes" style="margin-top:3px;accent-color:#2563EB;width:16px;height:16px;flex-shrink:0">
-          <div>
-            <div style="font-size:14px;font-weight:600;color:#1D4ED8">Yes, I would like a demo</div>
-            <div style="font-size:13px;color:#3B82F6;margin-top:2px">A 45-minute session tailored to your sector and use case. Harshad will be in touch to confirm timing.</div>
-          </div>
-        </label>
-      </div>
-
-      <!-- Q27: Pilot interest -->
-      <div class="q-block">
-        <div class="q-text">Are you interested in early access to ProDomino before the commercial launch?</div>
-        <div style="font-size:12px;color:#64748B;margin-bottom:10px">Pilot launches August 2026. Design partners get all modules from day one and direct input into the product roadmap.</div>
-        <div class="options" id="opts-q27">
-          <label class="opt-label"><input type="radio" name="q27" value="Yes — I want to be a design partner"><div class="opt-body"><div class="opt-text">Yes — I want to be a design partner</div><div class="opt-tag">Early access from August 2026</div></div></label>
-          <label class="opt-label"><input type="radio" name="q27" value="Maybe — tell me more before I decide"><div class="opt-body"><div class="opt-text">Maybe — tell me more before I decide</div><div class="opt-tag">Happy to share details</div></div></label>
-          <label class="opt-label"><input type="radio" name="q27" value="Not right now — interested after commercial launch"><div class="opt-body"><div class="opt-text">Not right now — interested after commercial launch</div><div class="opt-tag">September 2026 onwards</div></div></label>
-          <label class="opt-label"><input type="radio" name="q27" value="No — just completing the assessment"><div class="opt-body"><div class="opt-text">No — just completing the assessment</div></div></label>
+          <textarea name="biggest_challenge" placeholder="Be as specific as you like; this helps us understand your priorities"></textarea>
         </div>
       </div>
 
@@ -322,7 +333,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 const SECTIONS=[
   {num:1,title:"Purchase approval process",qs:[
     {id:"q1",text:"How are most purchase requests approved in your company?",opts:[
-      {t:"Verbal or WhatsApp — no formal system",s:0,tag:"Ad hoc"},
+      {t:"Verbal or WhatsApp, with no formal system",s:0,tag:"Ad hoc"},
       {t:"Email chain with one or two approvers",s:1,tag:"Basic"},
       {t:"Structured form or ERP workflow with documented approvals",s:2,tag:"Structured"},
       {t:"Automated digital workflow with DoA matrix and SLA escalation",s:3,tag:"Optimised"},
@@ -342,13 +353,13 @@ const SECTIONS=[
   ]},
   {num:2,title:"Vendor management",qs:[
     {id:"q4",text:"How are new vendors onboarded and verified?",opts:[
-      {t:"Informally — someone recommends them and we start buying",s:0,tag:"No process"},
+      {t:"Informally: someone recommends them and we start buying",s:0,tag:"No process"},
       {t:"Basic details collected via email or paper form",s:1,tag:"Basic"},
       {t:"Structured form with GSTIN, bank details, KYC documents",s:2,tag:"Structured"},
       {t:"Digital onboarding with GSTIN validation, MSME check, multi-level approval",s:3,tag:"Advanced"},
     ]},
     {id:"q5",text:"Do you track which vendors are MSME-registered under Section 43B(h)?",opts:[
-      {t:"No — we are not sure which vendors qualify",s:0,tag:"Unaware"},
+      {t:"No, we are not sure which vendors qualify",s:0,tag:"Unaware"},
       {t:"We know some are MSME but do not formally track",s:1,tag:"Partial"},
       {t:"We maintain a list but check manually",s:2,tag:"Manual"},
       {t:"System flags MSME vendors and tracks 45-day payment deadline automatically",s:3,tag:"Automated"},
@@ -365,7 +376,7 @@ const SECTIONS=[
       {t:"Manually by accounts team from paper or PDF invoices",s:0,tag:"Manual"},
       {t:"Spreadsheet-based comparison by accounts",s:1,tag:"Semi-manual"},
       {t:"ERP-assisted but significant manual work remains",s:2,tag:"Partial"},
-      {t:"Automated 3-way match — PO, GRN, Invoice — with exception alerts",s:3,tag:"Automated"},
+      {t:"Automated 3-way match (PO, GRN, Invoice) with exception alerts",s:3,tag:"Automated"},
     ]},
     {id:"q8",text:"How is TDS calculated and applied on vendor invoices?",opts:[
       {t:"Manually by accounts team, sometimes after payment",s:0,tag:"Manual"},
@@ -374,10 +385,10 @@ const SECTIONS=[
       {t:"Auto-applied at invoice approval based on vendor TDS section",s:3,tag:"Automated"},
     ]},
     {id:"q9",text:"How quickly can your finance team produce a current committed-spend report?",opts:[
-      {t:"3 days or more — requires manual data pull",s:0,tag:"Very slow"},
+      {t:"3 days or more (requires manual data pull)",s:0,tag:"Very slow"},
       {t:"1 to 2 days",s:1,tag:"Slow"},
       {t:"Same day with some effort",s:2,tag:"Moderate"},
-      {t:"Real-time — available on demand",s:3,tag:"Real-time"},
+      {t:"Real-time, available on demand",s:3,tag:"Real-time"},
     ]},
   ]},
   {num:4,title:"India compliance",qs:[
@@ -388,13 +399,13 @@ const SECTIONS=[
       {t:"System resolves GST treatment server-side on every transaction",s:3,tag:"Automated"},
     ]},
     {id:"q11",text:"How do you track MSME vendor payment deadlines (Section 43B(h))?",opts:[
-      {t:"We do not actively track — CA raises it at year-end",s:0,tag:"Reactive"},
+      {t:"We do not actively track; the CA raises it at year-end",s:0,tag:"Reactive"},
       {t:"We track in a spreadsheet with manual follow-up",s:1,tag:"Manual"},
       {t:"Our ERP shows outstanding amounts but no deadline alerts",s:2,tag:"Partial"},
       {t:"System tracks 45-day countdown from GRN date with alerts and PO blocks",s:3,tag:"Automated"},
     ]},
     {id:"q12",text:"How are RCM (reverse charge) invoices identified and processed?",opts:[
-      {t:"Not consistently — sometimes missed entirely",s:0,tag:"Inconsistent"},
+      {t:"Not consistently; sometimes missed entirely",s:0,tag:"Inconsistent"},
       {t:"Accounts team identifies manually case by case",s:1,tag:"Manual"},
       {t:"Flagged in ERP but process is largely manual",s:2,tag:"Partial"},
       {t:"Automatically flagged when vendor has no GST registration",s:3,tag:"Automated"},
@@ -402,13 +413,13 @@ const SECTIONS=[
   ]},
   {num:5,title:"Planning & inventory",qs:[
     {id:"q13",text:"How do you plan material requirements for projects?",opts:[
-      {t:"Ad hoc — purchase requests raised as needs arise on site",s:0,tag:"Reactive"},
+      {t:"Ad hoc: purchase requests raised as needs arise on site",s:0,tag:"Reactive"},
       {t:"Basic planning by project manager, not connected to procurement",s:1,tag:"Disconnected"},
       {t:"Annual plan exists but not linked to purchasing system",s:2,tag:"Partial"},
       {t:"MRP system calculates requirements from project BOM and schedule",s:3,tag:"Integrated"},
     ]},
     {id:"q14",text:"How do you manage inventory across multiple sites or projects?",opts:[
-      {t:"Each site manages independently — no visibility across sites",s:0,tag:"Siloed"},
+      {t:"Each site manages independently, with no visibility across sites",s:0,tag:"Siloed"},
       {t:"Manual stock registers at each site",s:1,tag:"Manual"},
       {t:"ERP tracks stock but transfers are manual and delayed",s:2,tag:"Partial"},
       {t:"Real-time stock visibility with transfer intelligence across sites",s:3,tag:"Integrated"},
@@ -423,21 +434,21 @@ const SECTIONS=[
   {num:6,title:"Data & visibility",qs:[
     {id:"q16",text:"How does the CFO or MD get visibility into procurement spend?",opts:[
       {t:"Weekly or monthly MIS report prepared manually by accounts",s:0,tag:"Delayed"},
-      {t:"Tally reports pulled on request — takes 1-2 days",s:1,tag:"On request"},
+      {t:"Tally reports pulled on request (takes 1-2 days)",s:1,tag:"On request"},
       {t:"Dashboard exists but not real-time or complete",s:2,tag:"Partial"},
       {t:"Live dashboard with committed spend, MSME exposure, PO aging",s:3,tag:"Real-time"},
     ]},
     {id:"q17",text:"Can you identify maverick spend (purchases outside approved process)?",opts:[
-      {t:"No — these purchases are invisible until audit",s:0,tag:"Invisible"},
+      {t:"No, these purchases are invisible until audit",s:0,tag:"Invisible"},
       {t:"Discovered during month-end reconciliation",s:1,tag:"Month-end"},
       {t:"Partially flagged in ERP but not comprehensively",s:2,tag:"Partial"},
-      {t:"All purchases must go through system — maverick spend is blocked by design",s:3,tag:"Eliminated"},
+      {t:"All purchases must go through the system; maverick spend is blocked by design",s:3,tag:"Eliminated"},
     ]},
     {id:"q18",text:"How is procurement data used for decision making?",opts:[
-      {t:"Mostly not used — decisions based on experience",s:0,tag:"Not used"},
+      {t:"Mostly not used; decisions are based on experience",s:0,tag:"Not used"},
       {t:"Basic spend reports used occasionally",s:1,tag:"Occasional"},
       {t:"Regular reporting but limited analytics capability",s:2,tag:"Reporting"},
-      {t:"AI-driven insights — vendor scoring, demand forecasting, anomaly detection",s:3,tag:"AI-driven"},
+      {t:"AI-driven insights: vendor scoring, demand forecasting, anomaly detection",s:3,tag:"AI-driven"},
     ]},
   ]},
   {num:7,title:"Contract & sourcing",qs:[
@@ -448,19 +459,25 @@ const SECTIONS=[
       {t:"CLM with versioning, renewals, compliance tracking, AI risk scoring",s:3,tag:"Advanced"},
     ]},
     {id:"q20",text:"How do you select vendors for non-catalogue purchases?",opts:[
-      {t:"Based on existing relationships — no formal comparison",s:0,tag:"Relationship-based"},
+      {t:"Based on existing relationships, with no formal comparison",s:0,tag:"Relationship-based"},
       {t:"2-3 quotes collected informally via phone or email",s:1,tag:"Informal"},
       {t:"Structured quotation process with comparison spreadsheet",s:2,tag:"Structured"},
       {t:"Digital RFQ with vendor portal, scoring matrix, full audit trail",s:3,tag:"Digital RFQ"},
+    ]},
+    {id:"q21",text:"How do you know you are paying the right price for what you buy?",opts:[
+      {t:"We don't formally check; we trust the vendor relationship",s:0,tag:"No benchmark"},
+      {t:"Occasional comparison when the amount is large",s:1,tag:"Occasional"},
+      {t:"Quotes compared regularly, but savings are not measured",s:2,tag:"Compared"},
+      {t:"Rate contracts negotiated, prices benchmarked, savings tracked",s:3,tag:"Measured"},
     ]},
   ]},
 ];
 
 const MATURITY=[
-  {max:15,label:"Level 1 — Ad hoc",color:"#DC2626",bg:"#FEF2F2"},
-  {max:30,label:"Level 2 — Basic",color:"#D97706",bg:"#FFFBEB"},
-  {max:45,label:"Level 3 — Structured",color:"#2563EB",bg:"#EFF6FF"},
-  {max:60,label:"Level 4 — Optimised",color:"#15803D",bg:"#F0FDF4"},
+  {max:16,label:"Level 1: Ad hoc",color:"#DC2626",bg:"#FEF2F2"},
+  {max:32,label:"Level 2: Basic",color:"#D97706",bg:"#FFFBEB"},
+  {max:48,label:"Level 3: Structured",color:"#2563EB",bg:"#EFF6FF"},
+  {max:63,label:"Level 4: Optimised",color:"#15803D",bg:"#F0FDF4"},
 ];
 
 function getMaturity(s){for(const m of MATURITY)if(s<=m.max)return m;return MATURITY[MATURITY.length-1];}
@@ -468,6 +485,91 @@ function getMaturity(s){for(const m of MATURITY)if(s<=m.max)return m;return MATU
 const answers={};
 let totalScore=0;
 
+const SHORT=["Approvals","Vendors","Invoices","Compliance","Planning","Visibility","Sourcing"];
+const RECS=[
+ {now:"Write a one-page approval matrix (who approves what value) and circulate it.",next:"Move approvals from WhatsApp and email to a digital workflow with alternate approvers.",later:"Auto-escalation and SLA tracking on every purchase request."},
+ {now:"Build one master vendor list with GSTIN, bank details and MSME status.",next:"Standardise onboarding with KYC checks before the first PO.",later:"Quarterly vendor scorecards on delivery, quality and price."},
+ {now:"Enforce PO–invoice–GRN matching before any payment is released.",next:"Apply TDS at invoice entry, not at payment.",later:"Automated 3-way match with exception alerts."},
+ {now:"List all MSME vendors and start a 45-day payment tracker this week.",next:"Automate GST treatment and RCM flagging at invoice entry.",later:"System-enforced 43B(h) countdown with alerts and PO blocks."},
+ {now:"Link project material plans to purchasing: one sheet, one owner.",next:"Set reorder levels and make stock visible across sites.",later:"MRP-driven requirements from project BOM and schedule."},
+ {now:"Send the MD/CFO one weekly committed-spend report in a fixed format.",next:"Build a live dashboard for spend, PO ageing and MSME exposure.",later:"Route all purchases through the system so nothing is invisible."},
+ {now:"Collect 3 quotes with a standard comparison sheet for non-routine buys.",next:"Negotiate rate contracts for your top 10 repeat items and track savings.",later:"Digital RFQ with audit trail and price benchmarking."}
+];
+function sectionScores(){
+  return SECTIONS.map((sec,i)=>{
+    const max=sec.qs.length*3;
+    const got=sec.qs.reduce((a,q)=>a+(answers[q.id]||0),0);
+    return {i:i, name:SHORT[i], title:sec.title, got:got, max:max, pct:got/max};
+  });
+}
+function getArchetype(){
+  const d=document.querySelector('input[name="q23"]:checked');
+  const o=document.querySelector('input[name="q22"]:checked');
+  const map={"Promoter / MD / Owner":"Founder-led procurement","Plant or project teams":"Site-led procurement","Finance team":"Finance-controlled procurement","A dedicated procurement team":"Process-led procurement"};
+  if(!d)return null;
+  const label=map[d.value]||null;
+  return label?{label:label,ops:o?o.value.toLowerCase():null}:null;
+}
+function appliedMaturity(){
+  const ss=sectionScores();
+  let mat=getMaturity(totalScore);
+  let idx=MATURITY.indexOf(mat);
+  let gate=null;
+  const weak=[];
+  if(ss[3].pct<0.34)weak.push("compliance");
+  if(ss[5].pct<0.34)weak.push("visibility");
+  if(weak.length&&idx>1){mat=MATURITY[1];gate="Level capped at Basic: low "+weak.join(" and ")+" scores limit overall maturity, whatever the other strengths.";}
+  return {mat:mat,gate:gate};
+}
+function drawRadar(ss){
+  const cx=180,cy=140,R=92,N=ss.length;
+  const pt=(k,r)=>{const a=-Math.PI/2+k*2*Math.PI/N;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  let g='';
+  [0.25,0.5,0.75,1].forEach(f=>{
+    g+='<polygon points="'+ss.map((_,k)=>pt(k,R*f).map(v=>v.toFixed(1)).join(',')).join(' ')+'" fill="none" stroke="#E2E8F0" stroke-width="1"/>';
+  });
+  ss.forEach((_,k)=>{const p=pt(k,R);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#E2E8F0" stroke-width="1"/>';});
+  const poly=ss.map((d,k)=>pt(k,Math.max(R*d.pct,3)).map(v=>v.toFixed(1)).join(',')).join(' ');
+  g+='<polygon points="'+poly+'" fill="rgba(37,99,235,0.18)" stroke="#2563EB" stroke-width="2"/>';
+  ss.forEach((d,k)=>{const p=pt(k,Math.max(R*d.pct,3));g+='<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="3" fill="#2563EB"/>';});
+  ss.forEach((d,k)=>{
+    const p=pt(k,R+18);
+    let anchor='middle';
+    if(p[0]>cx+12)anchor='start';else if(p[0]<cx-12)anchor='end';
+    g+='<text x="'+p[0].toFixed(1)+'" y="'+(p[1]+4).toFixed(1)+'" text-anchor="'+anchor+'" font-size="11" fill="#475569" font-family="inherit">'+d.name+'</text>';
+  });
+  return '<svg viewBox="0 0 360 280" width="100%" style="max-width:420px" role="img" aria-label="Radar chart of your seven procurement area scores">'+g+'</svg>';
+}
+function buildAnalysis(){
+  const ss=sectionScores();
+  const am=appliedMaturity();
+  document.getElementById('final-maturity-label').textContent=am.mat.label;
+  document.getElementById('final-maturity-label').style.color=am.mat.color;
+  if(am.gate){const gn=document.getElementById('gate-note');gn.textContent=am.gate;gn.style.display='block';}
+  const arch=getArchetype();
+  if(arch){
+    const al=document.getElementById('arch-line');
+    al.innerHTML='Your procurement profile: <b>'+arch.label+'</b>'+(arch.ops?' · '+arch.ops:'');
+    al.style.display='block';
+  }
+  document.getElementById('radar-wrap').innerHTML=drawRadar(ss);
+  document.getElementById('sec-bars').innerHTML=ss.map(d=>'<div class="sec-row"><span class="nm">'+d.name+'</span><span class="bar"><i style="width:'+Math.round(d.pct*100)+'%"></i></span><span class="vl">'+d.got+'/'+d.max+'</span></div>').join('');
+  const focus=ss.slice().sort((a,b)=>a.pct-b.pct||a.i-b.i).slice(0,2);
+  const recsText=focus.map(d=>{const r=RECS[d.i];return d.title+' ('+d.got+'/'+d.max+')\n  Now: '+r.now+'\n  Next: '+r.next+'\n  Later: '+r.later;}).join('\n');
+  const company=document.getElementById('f-company').value||'';
+  const mailSub=encodeURIComponent('ProDomino demo request | '+company+' | Score '+totalScore+'/63');
+  const mailBody=encodeURIComponent('Hi Harshad,\n\nWe just completed the procurement maturity assessment (score '+totalScore+'/63). We would like a demo of ProDomino.\n\nCompany: '+company);
+  document.getElementById('pitch-wrap').innerHTML=
+    '<div class="pitch-card"><h4>Schedule your walkthrough with Enalsys</h4>'+
+    '<p>Your two focus areas are <b>'+focus[0].title+'</b> and <b>'+focus[1].title+'</b>. The improvement plan for both, and how to sequence it, is what Harshad covers in a free 30-minute walkthrough of your results.</p>'+
+    '<a class="cta-btn" href="https://cal.id/hello-enalsys/connect-with-founder" target="_blank" rel="noopener">Schedule a call &rarr;</a></div>'+
+    '<div class="pitch-card"><h4>Sustain it: ProDomino, an AI-based Source-to-Pay platform</h4>'+
+    '<p>ProDomino brings approvals, vendors, invoices, compliance, planning, sourcing, and visibility into one system, built for Indian mid-market and designed to lift this score and hold it there.</p>'+
+    '<p>Pilot launches August 2026. Design partners get all modules from day one and direct input into the product roadmap. A demo is a 45-minute session tailored to your sector and use case.</p>'+
+    '<a class="cta-btn" href="mailto:harshad.am@enalsys.com?subject='+mailSub+'&body='+mailBody+'">Request a demo &rarr;</a>'+
+    '<a class="cta-wa" href="https://wa.me/919833949822?text='+encodeURIComponent('Hi Harshad, we completed the procurement maturity assessment (score '+totalScore+'/63, '+company+'). We would like to know more / see a demo of ProDomino.')+'" target="_blank" rel="noopener">WhatsApp Harshad</a></div>';
+  return {ss:ss,am:am,arch:arch,focus:focus,recsText:recsText};
+}
 function buildQuestions(){
   const wrap=document.getElementById('questions-wrap');
   SECTIONS.forEach(sec=>{
@@ -499,19 +601,30 @@ function buildQuestions(){
 
 function updateScore(){
   totalScore=Object.values(answers).reduce((a,b)=>a+b,0);
-  const pct=Math.round((totalScore/60)*100);
   const mat=getMaturity(totalScore);
-  document.getElementById('score-card').style.display='block';
-  document.getElementById('score-fill').style.width=pct+'%';
-  document.getElementById('score-num').textContent=totalScore;
-  const tag=document.getElementById('maturity-tag');
-  tag.textContent=mat.label;
-  tag.style.background=mat.bg;
-  tag.style.color=mat.color;
-  document.getElementById('h-score').value=totalScore+'/60';
+  document.getElementById('h-score').value=totalScore+'/63';
   document.getElementById('h-level').value=mat.label;
   document.getElementById('h-subject').value=
-    `Enalsys Procurement Assessment — ${document.getElementById('f-company').value||'[Company]'} — Score ${totalScore}/60 — ${mat.label}`;
+    `Enalsys Procurement Assessment | ${document.getElementById('f-company').value||'[Company]'} | Score ${totalScore}/63 | ${mat.label}`;
+  updateSubmitState();
+}
+
+const TOTALQ=SECTIONS.reduce((a,sec)=>a+sec.qs.length,0);
+function unansweredIds(){
+  const u=[];
+  SECTIONS.forEach(sec=>sec.qs.forEach(q=>{if(answers[q.id]===undefined)u.push(q.id);}));
+  return u;
+}
+function updateSubmitState(){
+  const btn=document.getElementById('submit-btn');
+  const left=unansweredIds().length;
+  if(left>0){
+    btn.classList.add('incomplete');
+    btn.innerHTML='Answer '+left+' more question'+(left===1?'':'s');
+  }else{
+    btn.classList.remove('incomplete');
+    btn.innerHTML='Submit assessment &rarr;';
+  }
 }
 
 function buildDetailedResponses(){
@@ -521,7 +634,7 @@ function buildDetailedResponses(){
     sec.qs.forEach(q=>{
       const sc=answers[q.id];
       const opt=q.opts.find(o=>o.s===sc);
-      out+=`Q: ${q.text}\nA: ${opt?opt.t:'Not answered'} [Score: ${sc??'—'}/3]\n\n`;
+      out+=`Q: ${q.text}\nA: ${opt?opt.t:'Not answered'} [Score: ${sc??'-'}/3]\n\n`;
     });
   });
   return out;
@@ -539,41 +652,54 @@ document.getElementById('assessment-form').addEventListener('submit',function(e)
   if(!company){document.getElementById('err-company').style.display='block';valid=false;}
   if(!email||!email.includes('@')){document.getElementById('err-email').style.display='block';valid=false;}
 
-  const unanswered=[];
-  SECTIONS.forEach(s=>s.qs.forEach(q=>{if(answers[q.id]===undefined)unanswered.push(q.id);}));
+  const unanswered=unansweredIds();
   if(unanswered.length>0){
     e.preventDefault();
-    alert(`Please answer all 20 questions. ${unanswered.length} question(s) still unanswered.`);
-    document.querySelector(`#opts-${unanswered[0]}`).scrollIntoView({behavior:'smooth',block:'center'});
+    const el=document.querySelector(`#opts-${unanswered[0]}`);
+    if(el&&el.scrollIntoView)el.scrollIntoView({behavior:'smooth',block:'center'});
     return;
   }
   if(!valid){e.preventDefault();return;}
 
-  document.getElementById('h-responses').value=buildDetailedResponses();
+  const an=buildAnalysis();
+  let summary='=== ANALYSIS SUMMARY ===\n';
+  summary+='Score: '+totalScore+'/63, '+an.am.mat.label+(an.am.gate?' (capped: '+an.am.gate+')':'')+'\n';
+  if(an.arch)summary+='Profile: '+an.arch.label+(an.arch.ops?' · '+an.arch.ops:'')+'\n';
+  summary+='Sections: '+an.ss.map(d=>d.name+' '+d.got+'/'+d.max).join(' | ')+'\n';
+  summary+='Focus areas: '+an.focus.map(d=>d.title).join(', ')+'\n';
+  summary+='=== RECOMMENDATIONS (for the call, not shown to respondent) ===\n'+an.recsText+'\n';
+  document.getElementById('h-responses').value=summary+buildDetailedResponses();
   document.getElementById('h-subject').value=
-    `Enalsys Procurement Assessment — ${company} — Score ${totalScore}/60 — ${getMaturity(totalScore).label}`;
+    `Enalsys Procurement Assessment | ${company} | Score ${totalScore}/63 | ${an.am.mat.label}`;
+  document.getElementById('h-level').value=an.am.mat.label;
 
-  const mat=getMaturity(totalScore);
-  document.getElementById('final-score-num').textContent=totalScore+' / 60';
-  document.getElementById('final-maturity-label').textContent=mat.label;
+  document.getElementById('final-score-num').textContent=totalScore+' / 63';
 
-  const msg=totalScore<30
+  const msg=totalScore<32
     ?'Your score suggests significant opportunities to improve procurement controls. Harshad will reach out within 24 hours with a personalised roadmap for your business.'
-    :totalScore<45
-    ?'You have solid foundations in place. Harshad will show you how our platform closes the remaining gaps and adds AI-driven intelligence.'
-    :'You are running a mature procurement function. The conversation will focus on advanced capabilities — AI forecasting, multi-project MRP, and rate contract automation.';
+    :totalScore<48
+    ?'You have solid foundations in place. The walkthrough will focus on closing your two weakest areas and what to sequence first.'
+    :'You are running a mature procurement function. The walkthrough will focus on advanced practices: forecasting, multi-project material planning, and rate contracts.';
   document.getElementById('thanks-msg').textContent=msg;
 
   document.getElementById('submit-btn').disabled=true;
   document.getElementById('submitting-msg').style.display='block';
+  setTimeout(function(){
+    var ok=document.getElementById('thanks-block');
+    if(!ok||ok.offsetParent===null){
+      document.getElementById('submit-btn').disabled=false;
+      document.getElementById('submitting-msg').style.display='none';
+    }
+  },20000);
 });
 
 buildQuestions();
+updateSubmitState();
 </script>
 
 <!-- Formspree AJAX integration -->
 <script>
-document.querySelectorAll('input[name="q22"]').forEach(function(radio){
+document.querySelectorAll('input[name="q25"]').forEach(function(radio){
   radio.addEventListener('change', function(){
     const show = this.value.startsWith('Yes');
     document.getElementById('ai-tool-block').style.display = show ? 'block' : 'none';
